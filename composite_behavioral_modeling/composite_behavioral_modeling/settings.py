@@ -124,9 +124,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'Template/images')]
+
+# Keep your existing images directory
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Template/images')]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Template/media')
+
+# The magic line for Render UI
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Security Settings for Production
 if not DEBUG:
