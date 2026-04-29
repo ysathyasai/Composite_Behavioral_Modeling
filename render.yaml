@@ -3,9 +3,9 @@ services:
     name: composite-behavioral-modeling
     env: python
     plan: free
-    # Added "cd composite_behavioral_modeling &&" to the commands
+    # We add "cd composite_behavioral_modeling &&" to the build command
     buildCommand: pip install -r requirements.txt && cd composite_behavioral_modeling && python manage.py migrate && python manage.py collectstatic --noinput
-    # Told gunicorn where the wsgi file is relative to the root
+    # We tell gunicorn where the python files are
     startCommand: gunicorn --pythonpath composite_behavioral_modeling composite_behavioral_modeling.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
@@ -14,3 +14,5 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
+      - key: DJANGO_SECRET_KEY
+        value: "eanw-bm$p=ek8t3q5+e)5$)%ir%)1xn&16$grpy%jqqh^vt@l)"
