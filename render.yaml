@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     # We add "cd composite_behavioral_modeling &&" to the build command
-    buildCommand: pip install -r requirements.txt && cd composite_behavioral_modeling && python manage.py collectstatic --noinput && cp -r staticfiles ../
+    buildCommand: pip install -r requirements.txt && cd composite_behavioral_modeling && python manage.py migrate && python manage.py collectstatic --noinput && cp -r staticfiles ../
     # We tell gunicorn where the python files are
     startCommand: gunicorn --pythonpath composite_behavioral_modeling composite_behavioral_modeling.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
