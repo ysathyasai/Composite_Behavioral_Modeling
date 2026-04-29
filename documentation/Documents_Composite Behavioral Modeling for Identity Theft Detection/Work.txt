@@ -1,0 +1,40 @@
+Service Provider
+
+Login,
+Browse Datasets and Train & Test Data Sets, 
+View Trained and Tested Accuracy in Bar Chart, 
+View Trained and Tested Accuracy Results, 
+View Prediction Of Theft Detection Status, 
+View Theft Detection Status Ratio, 
+Download Predicted Data Sets, 
+View Theft Detection Ratio Results, 
+View All Remote Users.
+
+
+
+Remote User
+
+
+REGISTER AND LOGIN,
+PREDICT IDENTITY OF THEFT DETECTION,
+VIEW YOUR PROFILE. 
+
+
+Members
+
+Account_Id,
+Trans_Id,
+Age,
+Followers,
+NAME_CONTRACT_TYPE,
+GENDER,
+AMT_INCOME_TOTAL,
+AMT_CREDIT,
+AMT_ANNUITY,
+AMT_GOODS_PRICE,
+NAME_INCOME_TYPE,
+NAME_FAMILY_STATUS,
+Prediction.
+
+
+

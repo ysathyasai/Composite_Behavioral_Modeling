@@ -1,0 +1,77 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Sign In | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.login-wrapper {
+    max-width: 480px;
+    margin: 4rem auto;
+    position: relative;
+}
+.login-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.login-icon-box {
+    width: 80px;
+    height: 80px;
+    background: var(--grad-aura);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 30px var(--primary-glow);
+}
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="glass-card aura-glow">
+        <div class="login-header">
+            <div class="login-icon-box">
+                <i class="fas fa-fingerprint" style="font-size: 2.5rem; color: white;"></i>
+            </div>
+            <h2>Identity Access</h2>
+            <p>Secure login for Composite Behavioral Model Remote Users.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% if error_message %}
+            <div style="background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; color: #dc3545; font-size: 0.9rem;">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
+                {{ error_message }}
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div style="position: relative;">
+                    <i class="fas fa-user" style="position: absolute; left: 1.25rem; top: 1.15rem; color: var(--text-muted); font-size: 0.9rem;"></i>
+                    <input type="text" id="username" name="username" placeholder="Enter your ID" style="padding-left: 3.5rem;" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Security Key</label>
+                <div style="position: relative;">
+                    <i class="fas fa-lock" style="position: absolute; left: 1.25rem; top: 1.15rem; color: var(--text-muted); font-size: 0.9rem;"></i>
+                    <input type="password" id="password" name="password" placeholder="••••••••" style="padding-left: 3.5rem;" required>
+                </div>
+            </div>
+
+            <button type="submit" name="submit1" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                Authenticate <i class="fas fa-sign-in-alt" style="margin-left: 0.5rem; opacity: 0.7;"></i>
+            </button>
+        </form>
+
+        <div style="margin-top: 2.5rem; border-top: 1px solid var(--glass-border); padding-top: 2rem; text-align: center;">
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+                New to Composite Behavioral Model? 
+                <a href="{% url 'Register1' %}" style="color: var(--secondary); font-weight: 700; text-decoration: none; margin-left: 0.5rem;">Initialize Account</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

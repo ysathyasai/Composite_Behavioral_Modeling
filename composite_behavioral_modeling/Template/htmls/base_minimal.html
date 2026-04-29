@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Composite Behavioral Model | Behavior Modeling{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style_minimal.css' %}">
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <style>
+        .aura-blob {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -2;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .aura-1 { top: -200px; left: -200px; }
+        .aura-2 { bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%); }
+        
+        {% block extra_style %}{% endblock %}
+    </style>
+</head>
+<body>
+    <div class="aura-blob aura-1"></div>
+    <div class="aura-blob aura-2"></div>
+
+    <nav>
+        <a href="{% url 'index' %}" class="nav-brand">
+            <i class="fas fa-shield-virus"></i>
+            <span>Composite Behavioral Model</span>
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Explore</a>
+            
+            {% if request.session.userid %}
+                <a href="{% url 'Predict_Theft_Status' %}" class="{% if request.resolver_match.url_name == 'Predict_Theft_Status' %}active{% endif %}">Analyze</a>
+                <a href="{% url 'Predict_Test_Inputs' %}" class="{% if request.resolver_match.url_name == 'Predict_Test_Inputs' %}active{% endif %}">Sample Cases</a>
+                <a href="{% url 'ViewYourProfile' %}" class="{% if request.resolver_match.url_name == 'ViewYourProfile' %}active{% endif %}">Identity</a>
+                <a href="{% url 'logout' %}" style="color: var(--accent);">Sign Out</a>
+            {% elif request.session.admin_authenticated %}
+                <a href="{% url 'Statistical' %}" class="{% if request.resolver_match.url_name == 'Statistical' %}active{% endif %}">Statistics</a>
+                <a href="{% url 'View_Remote_Users' %}" class="{% if request.resolver_match.url_name == 'View_Remote_Users' %}active{% endif %}">Remote Users</a>
+                <a href="{% url 'admin_logout' %}" style="color: var(--accent);">Sign Out</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">Remote User</a>
+                <a href="{% url 'serviceproviderlogin' %}" class="{% if request.resolver_match.url_name == 'serviceproviderlogin' %}active{% endif %}">Provider Portal</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div style="margin-bottom: 1.5rem; opacity: 0.5;">
+            <i class="fas fa-shield-virus" style="font-size: 1.5rem;"></i>
+        </div>
+        <p>&copy; 2026 Composite Behavioral Model. Built for the Cybersecurity Research Community.</p>
+        <div style="margin-top: 1rem; font-size: 0.75rem; opacity: 0.4;">
+            Composite Behavioral Modeling for Identity Theft Detection in OSNs
+            Made with ❤️ by the CBM Team
+        </div>
+    </footer>
+
+    {% block extra_script %}{% endblock %}
+</body>
+</html>

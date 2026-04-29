@@ -1,0 +1,156 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Account Initialization | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.register-wrapper {
+    max-width: 850px;
+    margin: 2rem auto;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+@media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+.input-aura {
+    position: relative;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s;
+}
+.input-aura:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+}
+.input-aura i {
+    position: absolute;
+    left: 1.25rem;
+    top: 1.15rem;
+    color: var(--text-muted);
+}
+.input-aura input {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding-left: 3.5rem;
+}
+{% endblock %}
+
+{% block content %}
+<div class="register-wrapper">
+    <div class="glass-card aura-glow">
+        <div style="text-align: center; margin-bottom: 3.5rem;">
+            <div style="width: 70px; height: 70px; background: var(--grad-aura); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 10px 20px var(--primary-glow);">
+                <i class="fas fa-id-badge" style="font-size: 2rem; color: white;"></i>
+            </div>
+            <h2>Register Identity</h2>
+            <p>Initialize your multi-dimensional behavioral profile.</p>
+        </div>
+
+        {% if object %}
+            <div class="glass" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; padding: 1.5rem; border-radius: 20px; margin-bottom: 2.5rem; text-align: center; font-weight: 700;">
+                <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i> {{ object }}
+                <div style="margin-top: 1rem;">
+                    <a href="{% url 'login' %}" class="btn btn-outline" style="padding: 0.5rem 1.5rem; font-size: 0.85rem; border-color: #10b981; color: #10b981;">LOG IN TO SECURE PORTAL</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Profile Alias</label>
+                    <div class="input-aura">
+                        <i class="fas fa-user-tag"></i>
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Network Email</label>
+                    <div class="input-aura">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Passkey</label>
+                    <div class="input-aura">
+                        <i class="fas fa-key"></i>
+                        <input type="password" name="password" placeholder="Min 8 characters" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Discovery Line</label>
+                    <div class="input-aura">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="phoneno" placeholder="Phone Number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Geographic Origin</label>
+                    <div class="input-aura">
+                        <i class="fas fa-globe-americas"></i>
+                        <input type="text" name="country" placeholder="Country" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Regional Sector</label>
+                    <div class="input-aura">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <input type="text" name="state" placeholder="State/Region" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Residential Node</label>
+                    <div class="input-aura">
+                        <i class="fas fa-city"></i>
+                        <input type="text" name="city" placeholder="City" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Biological Identifier</label>
+                    <div class="input-aura">
+                        <i class="fas fa-venus-mars"></i>
+                        <select name="gender" required style="padding-left: 3.5rem; background: transparent; border: none;">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 0.5rem;">
+                <label>Physical Coordinates</label>
+                <div class="input-aura" style="padding: 0;">
+                    <textarea name="address" rows="3" placeholder="Full Address Details" required style="width: 100%; border: none; background: transparent; padding: 1.25rem;"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem; height: 3.5rem;">
+                Initialize Identity Core <i class="fas fa-rocket" style="margin-left: 0.75rem; opacity: 0.7;"></i>
+            </button>
+        </form>
+
+        <div style="margin-top: 2.5rem; border-top: 1px solid var(--glass-border); padding-top: 2rem; text-align: center;">
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+                Known user? 
+                <a href="{% url 'login' %}" style="color: var(--secondary); font-weight: 700; text-decoration: none; margin-left: 0.5rem;">Re-authenticate</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

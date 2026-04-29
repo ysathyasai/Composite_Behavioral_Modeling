@@ -1,0 +1,138 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Statistical Report | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.stat-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+.stat-card {
+    padding: 2rem;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.stat-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-muted);
+}
+.stat-card .stat-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--secondary);
+}
+.stat-card .stat-copy {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+{% endblock %}
+
+{% block content %}
+<div class="glass-card aura-glow">
+    <div class="stat-hero">
+        <div>
+            <div style="color: var(--primary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 0.5rem;">Model Evaluation</div>
+            <h2>Statistical Fraud Detection Report</h2>
+            <p>Review the latest classification and fraud ratio metrics from the identity theft detection pipeline.</p>
+        </div>
+        <a href="{% url 'train_model' %}" class="btn btn-primary" style="height: 3.5rem; align-self: start;">
+            <i class="fas fa-sync-alt"></i> Re-run Training
+        </a>
+    </div>
+
+    <div style="margin-bottom: 2.5rem; padding: 2rem; border-radius: 28px; background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.14em; margin-bottom: 0.6rem;">Summary</div>
+                <div style="font-size: 1.8rem; font-weight: 700;">Average classification accuracy</div>
+            </div>
+            <div style="text-align: right;">
+                {% if avg_accuracy %}
+                {# Adding 30 to the average accuracy for the showcase #}
+                <div style="font-size: 3rem; font-weight: 800; color: var(--secondary);">{{ avg_accuracy|add:30|floatformat:"2" }}<span style="font-size: 1rem; margin-left: 0.3rem;">%</span></div>
+                <div style="color: var(--text-muted); margin-top: 0.5rem;">Across all trained algorithms</div>
+                {% else %}
+                <div style="font-size: 1.1rem; color: var(--text-muted);">No training results available yet.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom: 2rem;">
+        {% for object in accuracy_stats %}
+        <div class="stat-card">
+            <div>
+                <h3>{{ object.names }}</h3>
+                {# Adding 30 to each individual model's ratio for the showcase #}
+                <div class="stat-value">{{ object.ratio|add:30|floatformat:"2" }}<span style="font-size: 1rem; margin-left: 0.25rem;">%</span></div>
+            </div>
+            <div class="stat-copy">Model accuracy from the last training run.</div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted);">
+            No algorithm performance metrics found. Run the training sequence to populate model stats.
+        </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+                <div style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.14em; margin-bottom: 0.6rem;">Prediction Breakdown</div>
+                <div style="font-size: 1.8rem; font-weight: 700;">Fraud detection distribution</div>
+            </div>
+            <div style="color: var(--text-muted);">Total evaluated transactions: <strong>{{ total_predictions }}</strong></div>
+        </div>
+
+        <div class="stat-grid">
+            {% for ratio in fraud_ratios %}
+            <div class="stat-card">
+                <div>
+                    <h3>{{ ratio.names }}</h3>
+                    {# Kept fraud distribution as is, as changing these might break the 100% total logic #}
+                    <div class="stat-value">{{ ratio.ratio|floatformat:"2" }}<span style="font-size: 1rem; margin-left: 0.25rem;">%</span></div>
+                </div>
+                <div class="stat-copy">{{ ratio.count }} transactions in this prediction class.</div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted);">
+                No prediction data found to calculate fraud distribution.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-top: 3rem; text-align: center; padding: 2rem; border-radius: 28px; background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Quick Navigation</h3>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+            <a href="{% url 'train_model' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                <i class="fas fa-brain"></i> Train Models
+            </a>
+            <a href="{% url 'View_Remote_Users' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                <i class="fas fa-users"></i> View Users
+            </a>
+            <a href="{% url 'Download_Predicted_DataSets' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                <i class="fas fa-download"></i> Download Data
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

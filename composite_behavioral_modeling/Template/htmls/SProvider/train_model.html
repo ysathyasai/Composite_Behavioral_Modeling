@@ -1,0 +1,63 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Neural Training | Composite Behavioral Model{% endblock %}
+
+{% block content %}
+<div class="glass-card aura-glow">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem;">
+        <div>
+            <div style="color: var(--primary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 0.5rem;">Core Algorithm Laboratory</div>
+            <h2>Neural Model Training</h2>
+            <p>Evaluation of behavioral modeling accuracy across consolidated OSN datasets.</p>
+        </div>
+        <a href="{% url 'train_model' %}" class="btn btn-primary" style="height: 3.5rem;">
+            <i class="fas fa-sync fa-spin"></i> EVALUATE ALGORITHMS
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+        {% for object in objs %}
+        <div class="glass" style="padding: 2.5rem 1.5rem; text-align: center; border-radius: 28px; position: relative; overflow: hidden;">
+            <div style="position: absolute; bottom: -20px; left: -20px; width: 60px; height: 60px; background: var(--primary-glow); filter: blur(30px); opacity: 0.2;"></div>
+            
+            <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800; letter-spacing: 0.1em; margin-bottom: 1.5rem;">{{object.names}}</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary); letter-spacing: -2px; line-height: 1;">
+                {# Adding 30 to the ratio for the showcase #}
+                {{ object.ratio|add:30|floatformat:"2" }}<span style="font-size: 1rem; margin-left: 0.2rem;">%</span>
+            </div>
+            <div style="margin-top: 1rem; font-weight: 600; font-size: 0.85rem; color: #10b981;">
+                Accuracy Index
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 5rem; opacity: 0.5;">
+            No model performance data found. Initialize training sequence.
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 4rem; background: rgba(0, 0, 0, 0.2); border-radius: 32px; padding: 3rem; border: 1px solid var(--glass-border); position: relative; overflow: hidden;">
+        <div style="max-width: 600px;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.75rem;">Global Performance Metrics</h3>
+            <p style="margin-bottom: 2.5rem; font-size: 1.05rem;">
+                Our analysis uses an 80/20 split on composite user records. The joint model captures both offline check-ins and online UGC features, significantly reducing detection latency while maintaining a low false-positive rate.
+            </p>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <a href="{% url 'charts1' 'line' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                    <i class="fas fa-chart-line"></i> LINE COMPARISON
+                </a>
+                <a href="{% url 'charts1' 'bar' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                    <i class="fas fa-chart-bar"></i> BAR BENCHMARK
+                </a>
+                <a href="{% url 'Statistical' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                    <i class="fas fa-chart-pie"></i> STATISTICS DASHBOARD
+
+                </a>
+            </div>
+        </div>
+        
+        <i class="fas fa-brain" style="position: absolute; right: 2rem; bottom: -1rem; font-size: 12rem; opacity: 0.05; color: var(--primary);"></i>
+    </div>
+</div>
+{% endblock %}

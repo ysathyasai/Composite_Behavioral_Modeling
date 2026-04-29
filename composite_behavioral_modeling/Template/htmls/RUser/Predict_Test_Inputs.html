@@ -1,0 +1,197 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Predefined Prediction Samples | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.sample-panel {
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+.sample-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    overflow-x: auto;
+}
+.sample-table th,
+.sample-table td {
+    padding: 0.85rem 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+    font-size: 0.92rem;
+}
+.sample-table th {
+    color: var(--text-muted);
+    font-weight: 700;
+    background: rgba(255,255,255,0.03);
+}
+.sample-table tbody tr:hover {
+    background: rgba(255,255,255,0.04);
+}
+.sample-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.sample-button:hover {
+    background: rgba(16, 185, 129, 0.14);
+    transform: translateY(-1px);
+}
+.sample-feedback {
+    display: block;
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+@media (max-width: 1100px) {
+    .sample-table th,
+    .sample-table td {
+        font-size: 0.82rem;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<div class="sample-panel">
+    <div class="glass-card aura-glow" style="padding: 2rem;">
+        <div style="display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-start; margin-bottom: 1.5rem;">
+            <div>
+                <div style="color: var(--secondary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem;">Prediction Sample Runner</div>
+                <h2 style="margin-bottom: 0.5rem;">Predefined Test Inputs</h2>
+                <p style="max-width: 780px; color: var(--text-muted); font-size: 0.95rem;">
+                    These are the full predefined cases loaded from <strong>Predict_Test_Inputs.csv</strong>. Click any row button to run the sample automatically through the prediction engine.
+                </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <a href="{% url 'Predict_Theft_Status' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">Open Prediction Form</a>
+            </div>
+        </div>
+
+        {% if samples %}
+        <div style="overflow-x:auto;">
+            <table class="sample-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Account Ref</th>
+                        <th>Txn ID</th>
+                        <th>Age</th>
+                        <th>Followers</th>
+                        <th>Contract</th>
+                        <th>Gender</th>
+                        <th>Income</th>
+                        <th>Credit</th>
+                        <th>Annuity</th>
+                        <th>Goods</th>
+                        <th>Income Type</th>
+                        <th>Family Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sample in samples %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ sample.Account_Id }}</td>
+                        <td>{{ sample.Trans_Id }}</td>
+                        <td>{{ sample.Age }}</td>
+                        <td>{{ sample.Followers }}</td>
+                        <td>{{ sample.NAME_CONTRACT_TYPE }}</td>
+                        <td>{{ sample.GENDER }}</td>
+                        <td>{{ sample.AMT_INCOME_TOTAL }}</td>
+                        <td>{{ sample.AMT_CREDIT }}</td>
+                        <td>{{ sample.AMT_ANNUITY }}</td>
+                        <td>{{ sample.AMT_GOODS_PRICE }}</td>
+                        <td>{{ sample.NAME_INCOME_TYPE }}</td>
+                        <td>{{ sample.NAME_FAMILY_STATUS }}</td>
+                        <td>
+                            <button type="button" class="sample-button" onclick="submitSample(this)"
+                                data-account_id="{{ sample.Account_Id|escapejs }}"
+                                data-trans_id="{{ sample.Trans_Id|escapejs }}"
+                                data-age="{{ sample.Age|escapejs }}"
+                                data-followers="{{ sample.Followers|escapejs }}"
+                                data-contract_type="{{ sample.NAME_CONTRACT_TYPE|escapejs }}"
+                                data-gender="{{ sample.GENDER|escapejs }}"
+                                data-income_total="{{ sample.AMT_INCOME_TOTAL|escapejs }}"
+                                data-credit="{{ sample.AMT_CREDIT|escapejs }}"
+                                data-annuity="{{ sample.AMT_ANNUITY|escapejs }}"
+                                data-goods_price="{{ sample.AMT_GOODS_PRICE|escapejs }}"
+                                data-income_type="{{ sample.NAME_INCOME_TYPE|escapejs }}"
+                                data-family_status="{{ sample.NAME_FAMILY_STATUS|escapejs }}">
+                                Run this sample
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="sample-feedback">Click a sample button to auto-post the values to the prediction endpoint.</p>
+        {% else %}
+            <div style="padding: 3rem 1rem; text-align: center; color: var(--text-muted);">
+                No sample values found in <strong>Predict_Test_Inputs.csv</strong>.
+            </div>
+        {% endif %}
+
+        <form id="sampleSubmitForm" method="post" action="{% url 'Predict_Theft_Status' %}" style="display:none;">
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+{% block extra_script %}
+<script>
+function createHidden(name, value) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
+}
+
+function submitSample(button) {
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '{% url "Predict_Theft_Status" %}';
+    form.style.display = 'none';
+
+    const csrfElement = document.querySelector('#sampleSubmitForm input[name="csrfmiddlewaretoken"]');
+    if (csrfElement) {
+        form.appendChild(createHidden('csrfmiddlewaretoken', csrfElement.value));
+    }
+
+    const mappings = {
+        'account_id': 'Account_Id',
+        'trans_id': 'Trans_Id',
+        'age': 'Age',
+        'followers': 'Followers',
+        'contract_type': 'NAME_CONTRACT_TYPE',
+        'gender': 'GENDER',
+        'income_total': 'AMT_INCOME_TOTAL',
+        'credit': 'AMT_CREDIT',
+        'annuity': 'AMT_ANNUITY',
+        'goods_price': 'AMT_GOODS_PRICE',
+        'income_type': 'NAME_INCOME_TYPE',
+        'family_status': 'NAME_FAMILY_STATUS'
+    };
+
+    Object.keys(mappings).forEach(key => {
+        const value = button.dataset[key] || '';
+        form.appendChild(createHidden(mappings[key], value));
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+{% endblock %}
+{% endblock %}

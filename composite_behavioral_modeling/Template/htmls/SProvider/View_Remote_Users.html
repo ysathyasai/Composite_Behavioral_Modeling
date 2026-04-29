@@ -1,0 +1,68 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}User Repository | Composite Behavioral Model{% endblock %}
+
+{% block content %}
+<div class="glass-card aura-glow">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 2rem;">
+        <div>
+            <div style="color: var(--secondary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem;">Behavioral Repository</div>
+            <h2>Neural Profile Database</h2>
+            <p>Comprehensive registry of all identified behavioral nodes in the network.</p>
+        </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'Statistical' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">
+                <i class="fas fa-chart-pie"></i> View Statistics
+            </a>
+            <div class="glass" style="padding: 1rem 2rem; border-radius: 20px; text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;">Active Nodes</div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">{{ objects|length }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container shadow-2xl">
+        <table>
+            <thead>
+                <tr>
+                    <th>Alias / Node ID</th>
+                    <th>Network Address</th>
+                    <th>Private Line</th>
+                    <th>Sector Location</th>
+                    <th>Neural Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in objects %}
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 32px; height: 32px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(139, 92, 246, 0.2);">
+                                <i class="fas fa-user-circle" style="color: var(--primary); font-size: 1rem;"></i>
+                            </div>
+                            <span style="font-weight: 700; color: var(--primary);">{{object.username}}</span>
+                        </div>
+                    </td>
+                    <td style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem;">{{object.email}}</td>
+                    <td>{{object.phoneno}}</td>
+                    <td><span style="color: var(--text-muted);">{{object.city}}, {{object.state}}</span> <br> <span style="font-size: 0.7rem; font-weight: 800; color: var(--secondary);">{{object.country}}</span></td>
+                    <td>
+                        <span class="badge" style="background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--glass-border); font-size: 0.7rem;">
+                            {{object.gender}}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 5rem;">
+                        <i class="fas fa-users-slash" style="font-size: 3rem; margin-bottom: 1.5rem; opacity: 0.2;"></i>
+                        <p style="opacity: 0.5;">No nodes registered in the behavioral repository.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

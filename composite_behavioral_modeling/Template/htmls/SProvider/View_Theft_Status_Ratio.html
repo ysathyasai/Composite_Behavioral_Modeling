@@ -1,0 +1,50 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Theft Analytics | Composite Behavioral Model{% endblock %}
+
+{% block content %}
+<div class="glass-card aura-glow">
+    <div style="margin-bottom: 4rem;">
+        <div style="color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 0.5rem;">Network Health Dashboard</div>
+        <h2 style="margin-bottom: 0.5rem;">Behavioral Threat Analysis</h2>
+        <p>Distribution ratio of identified identity breaches vs. legitimate session patterns.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        {% for object in objs %}
+        <div class="glass-card aura-glow" style="border: none; background: rgba(0, 0, 0, 0.2); text-align: center; padding: 3rem 2rem; position: relative; overflow: hidden;">
+            {% if object.names == 'Theft or Fraud Found' %}
+                <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(244, 63, 94, 0.1); filter: blur(30px); border-radius: 50%;"></div>
+            {% else %}
+                <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(16, 185, 129, 0.1); filter: blur(30px); border-radius: 50%;"></div>
+            {% endif %}
+
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800; letter-spacing: 0.15em; margin-bottom: 1.5rem;">{{object.names}}</div>
+            <div style="font-size: 4rem; font-weight: 800; color: {% if object.names == 'Theft or Fraud Found' %}var(--accent){% else %}#10b981{% endif %}; letter-spacing: -3px; line-height: 1;">
+                {{object.ratio|stringformat:".1f"}}<span style="font-size: 1.5rem; margin-left: 0.25rem;">%</span>
+            </div>
+            
+            <div style="margin-top: 2.5rem; height: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 999px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05);">
+                <div style="width: {{object.ratio}}%; height: 100%; background: {% if object.names == 'Theft or Fraud Found' %}var(--accent){% else %}#10b981{% endif %}; box-shadow: 0 0 15px {% if object.names == 'Theft or Fraud Found' %}rgba(244, 63, 94, 0.4){% else %}rgba(16, 185, 129, 0.4){% endif %}; transition: width 1s ease-out;"></div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                Comparative behavioral weight
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 5rem;" class="glass">
+            <i class="fas fa-chart-pie" style="font-size: 3rem; margin-bottom: 2rem; opacity: 0.2;"></i>
+            <p style="opacity: 0.5; font-size: 1.1rem;">No neural analytics data available in the current session.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 4rem; display: flex; justify-content: center; gap: 1.5rem;">
+        <a href="{% url 'charts' 'pie' %}" class="btn btn-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+            <i class="fas fa-chart-pie"></i> GENERATE ANALYTIC CHARTS
+        </a>
+    </div>
+</div>
+{% endblock %}

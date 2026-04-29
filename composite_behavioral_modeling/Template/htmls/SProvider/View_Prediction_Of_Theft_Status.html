@@ -1,0 +1,69 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Neural Monitoring | Composite Behavioral Model{% endblock %}
+
+{% block content %}
+<div class="glass-card aura-glow">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;">
+        <div>
+            <div style="color: var(--secondary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem;">Event Monitoring</div>
+            <h2>Behavioral Scan Registry</h2>
+            <p>Real-time log of all neural identity scans processed by the network.</p>
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <div class="glass" style="padding: 0.75rem 1.5rem; border-radius: 16px; text-align: center;">
+                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;">Total Scans</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--secondary);">{{ list_objects|length }}</div>
+            </div>
+            <a href="{% url 'Statistical' %}" class="btn btn-outline" style="border-radius: 16px;">
+                <i class="fas fa-chart-pie"></i> VIEW STATS
+            </a>
+            <a href="{% url 'Download_Predicted_DataSets' %}" class="btn btn-outline" style="border-radius: 16px;">
+                <i class="fas fa-file-excel"></i> EXPORT XLS
+            </a>
+        </div>
+    </div>
+
+    <div class="table-container aura-glow">
+        <table style="background: rgba(15, 23, 42, 0.4);">
+            <thead>
+                <tr>
+                    <th>Account / Trans ID</th>
+                    <th>Node Age</th>
+                    <th>Financial Profile</th>
+                    <th>Neural Verdict</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in list_objects %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 800; color: var(--primary); font-family: monospace;">{{object.Account_Id}}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.05rem;">TX: {{object.Trans_Id}}</div>
+                    </td>
+                    <td><span style="font-weight: 600;">{{object.Age}}</span> <span style="font-size: 0.75rem; color: var(--text-muted);">years</span></td>
+                    <td>
+                        <div style="font-size: 0.85rem; font-weight: 600;">Inc: <span style="color: #10b981;">${{object.AMT_INCOME_TOTAL|stringformat:".2f"}}</span></div>
+                        <div style="font-size: 0.85rem; font-weight: 600;">Crd: <span style="color: var(--secondary);">${{object.AMT_CREDIT|stringformat:".2f"}}</span></div>
+                    </td>
+                    <td>
+                        <span class="badge {% if object.Prediction == 'No Theft or Fraud Found' %}badge-success{% else %}badge-danger{% endif %}" style="display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 10px; padding: 0.6rem 1rem;">
+                            <i class="fas {% if object.Prediction == 'No Theft or Fraud Found' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
+                            {{object.Prediction}}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 5rem;">
+                        <i class="fas fa-satellite" style="font-size: 3rem; margin-bottom: 2rem; opacity: 0.2; color: var(--secondary);"></i>
+                        <p style="opacity: 0.5;">No network scans detected in the current session.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

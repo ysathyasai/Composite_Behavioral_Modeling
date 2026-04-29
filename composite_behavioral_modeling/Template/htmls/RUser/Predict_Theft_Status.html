@@ -1,0 +1,208 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Neural Analysis | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.predict-wrapper {
+    max-width: 1000px;
+    margin: 2rem auto;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+@media (max-width: 850px) {
+    .form-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 550px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+.input-aura {
+    position: relative;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s;
+}
+.input-aura:focus-within {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+}
+.input-aura input, .input-aura select {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0.75rem 1rem;
+}
+
+.analysis-status {
+    margin-top: 3rem;
+    padding: 2.5rem;
+    border-radius: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+}
+.status-safe {
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+.status-danger {
+    background: rgba(244, 63, 94, 0.05);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    color: #f43f5e;
+}
+.status-warning {
+    background: rgba(249, 115, 22, 0.07);
+    border: 1px solid rgba(249, 115, 22, 0.25);
+    color: #f59e0b;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.status-warning {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+}
+{% endblock %}
+
+{% block content %}
+<div class="predict-wrapper">
+    <div class="glass-card aura-glow">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;">
+            <div>
+                <div style="color: var(--secondary); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem;">Behavioral Engine v4.0</div>
+                <h2 style="margin-bottom: 0.5rem;">Theft Detection Scan</h2>
+                <p>Initialize behavioral consensus analysis for identity verification.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                <a href="{% url 'Predict_Test_Inputs' %}" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.03);">Run Sample Cases</a>
+                <div style="width: 60px; height: 60px; background: rgba(6, 182, 212, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(6, 182, 212, 0.3);">
+                    <i class="fas fa-microchip" style="font-size: 1.5rem; color: var(--secondary);"></i>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Account Reference</label>
+                    <div class="input-aura">
+                        <input type="text" name="Account_Id" placeholder="UID-0000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Transaction ID</label>
+                    <div class="input-aura">
+                        <input type="text" name="Trans_Id" placeholder="TX-0000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Behavioral Age</label>
+                    <div class="input-aura">
+                        <input type="number" name="Age" placeholder="24" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Social Connections</label>
+                    <div class="input-aura">
+                        <input type="number" name="Followers" placeholder="Followers count" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Contract Geometry</label>
+                    <div class="input-aura">
+                        <input type="text" name="NAME_CONTRACT_TYPE" placeholder="e.g. Cash loans" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Neural Gender</label>
+                    <div class="input-aura">
+                        <select name="GENDER" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Net Liquid Wealth</label>
+                    <div class="input-aura">
+                        <input type="number" step="0.01" name="AMT_INCOME_TOTAL" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Active Credit</label>
+                    <div class="input-aura">
+                        <input type="number" step="0.01" name="AMT_CREDIT" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Annuity Volume</label>
+                    <div class="input-aura">
+                        <input type="number" step="0.01" name="AMT_ANNUITY" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Asset Valuation</label>
+                    <div class="input-aura">
+                        <input type="number" step="0.01" name="AMT_GOODS_PRICE" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Income Channel</label>
+                    <div class="input-aura">
+                        <input type="text" name="NAME_INCOME_TYPE" placeholder="e.g. Working" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kinship Status</label>
+                    <div class="input-aura">
+                        <input type="text" name="NAME_FAMILY_STATUS" placeholder="e.g. Single" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2.5rem; height: 3.5rem; letter-spacing: 0.05rem;">
+                RUN NEURAL ENGINE <i class="fas fa-sync fa-spin" style="margin-left: 0.75rem; opacity: 0.5;"></i>
+            </button>
+        </form>
+
+        {% if validation_warnings %}
+            <div class="analysis-status status-warning">
+                <div style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.75rem; opacity: 0.75;">Validation notice</div>
+                <p style="color: inherit; opacity: 0.75; font-size: 0.95rem; max-width: 720px; margin: 0 auto;">
+                    Input values were accepted for prediction, but some fields may be outside expected ranges.
+                </p>
+            </div>
+        {% endif %}
+
+        {% if objs %}
+            <div class="analysis-status {% if objs == 'No Theft or Fraud Found' %}status-safe{% elif objs == 'Theft or Fraud Found' %}status-danger{% else %}status-warning{% endif %}">
+                <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 1.5rem; opacity: 0.7;">Scan Verdict</div>
+                <div style="font-size: 2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                    <i class="fas {% if objs == 'No Theft or Fraud Found' %}fa-check-double{% elif objs == 'Theft or Fraud Found' %}fa-biohazard{% else %}fa-exclamation-triangle{% endif %}"></i>
+                    {{ objs }}
+                </div>
+                <p style="color: inherit; opacity: 0.8; font-size: 0.95rem;">
+                    {% if objs == 'No Theft or Fraud Found' %}
+                        The behavioral patterns match your established identity baseline. Access secure.
+                    {% elif objs == 'Theft or Fraud Found' %}
+                        Anomalous behavioral patterns detected. Composite modeling indicates a possible identity breach.
+                    {% else %}
+                        Please review the provided values and try again with valid inputs.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

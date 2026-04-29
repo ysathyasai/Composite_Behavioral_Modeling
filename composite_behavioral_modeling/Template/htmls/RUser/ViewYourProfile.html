@@ -1,0 +1,116 @@
+{% extends 'base_minimal.html' %}
+{% load static %}
+
+{% block title %}Identity Core | Composite Behavioral Model{% endblock %}
+
+{% block extra_style %}
+.profile-wrapper {
+    max-width: 700px;
+    margin: 3rem auto;
+}
+.profile-hero {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+.avatar-aura {
+    width: 120px;
+    height: 120px;
+    background: var(--grad-aura);
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    box-shadow: 0 15px 35px var(--primary-glow);
+}
+.avatar-aura::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border: 2px solid var(--primary);
+    border-radius: 45px;
+    opacity: 0.3;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    transition: background 0.2s;
+}
+.info-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+.info-row:last-child { border-bottom: none; }
+.info-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.info-label i { font-size: 1rem; width: 20px; color: var(--secondary); opacity: 0.8; }
+.info-value {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+{% endblock %}
+
+{% block content %}
+<div class="profile-wrapper">
+    <div class="glass-card aura-glow">
+        <div class="profile-hero">
+            <div class="avatar-aura">
+                <i class="fas fa-user-shield" style="font-size: 3.5rem; color: white;"></i>
+            </div>
+            <h2>{{object.username}}</h2>
+            <div style="background: rgba(139, 92, 246, 0.1); color: var(--primary); padding: 0.4rem 1.25rem; border-radius: 99px; display: inline-block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; border: 1px solid rgba(139, 92, 246, 0.2);">
+                Verified Identity Core
+            </div>
+        </div>
+
+        <div class="glass" style="overflow: hidden; border-radius: 24px;">
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-id-card"></i> Profile Alias</div>
+                <div class="info-value">{{object.username}}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-at"></i> Network Email</div>
+                <div class="info-value">{{object.email}}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-phone-alt"></i> Private Line</div>
+                <div class="info-value">{{object.phoneno}}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-map-pin"></i> Region</div>
+                <div class="info-value">{{object.city}}, {{object.state}}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-flag"></i> Sovereign Nation</div>
+                <div class="info-value">{{object.country}}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fas fa-tint"></i> Biological Type</div>
+                <div class="info-value">{{object.gender}}</div>
+            </div>
+            <div class="info-row" style="flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem;">
+                <div class="info-label"><i class="fas fa-map-marker-alt"></i> Physical Coordinates</div>
+                <div class="info-value" style="background: rgba(0, 0, 0, 0.2); width: 100%; padding: 1.25rem; border-radius: 16px; font-weight: 500; font-size: 0.95rem; line-height: 1.7; border: 1px solid var(--glass-border);">
+                    {{object.address}}
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="{% url 'Predict_Theft_Status' %}" class="btn btn-primary" style="padding-left: 3rem; padding-right: 3rem;">
+                EXECUTE IDENTITY SCAN <i class="fas fa-fingerprint" style="margin-left: 0.75rem;"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

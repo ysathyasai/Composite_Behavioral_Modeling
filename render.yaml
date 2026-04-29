@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: composite-behavioral-modeling
+    env: python
+    runtime: python-3.11.7
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn composite_behavioral_modeling.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.7
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DJANGO_SECRET_KEY
+        value: "eanw-bm$p=ek8t3q5+e)5$)%ir%)1xn&16$grpy%jqqh^vt@l)"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: composite-modeling-db
+          property: connectionString
+    
+  - type: pserv
+    name: composite-modeling-db
+    env: sqlite
+    plan: free
