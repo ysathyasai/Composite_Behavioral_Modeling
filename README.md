@@ -5,6 +5,8 @@
   <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-3.2-092E20?style=flat-square&logo=django&logoColor=white" /></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white" /></a>
   <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/scikit--learn-1.8.0-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" /></a>
+  
+  [🚀 Live Demo](https://composite-behavioral-modeling-abci.onrender.com/) • [📖 Documentation](#-features) • [📄 LICENSE](#-license)
 </div>
 
 ---
@@ -112,7 +114,7 @@ pip install -r requirements.txt
 ### 4. Run migrations
 
 ```bash
-cd Composite_Behavioral_Modeling
+cd composite_behavioral_modeling
 python manage.py migrate
 ```
 
@@ -145,6 +147,9 @@ python manage.py runserver
 - Model training is currently performed through the service provider views for demo purposes.
 - The app uses simple session handling and should be migrated to Django authentication in production.
 
+> [!NOTE]
+> Hardware Resource Constraints: This project may return an Internal Server Error during model execution. As this is an academic project hosted on the Render Free Tier, the 0.5 CPU allocation and limited RAM are insufficient to process the model's computational requirements. Running the project locally is suggested to utilize the model effectively.
+
 ---
 
 ## 🚧 Future Improvements
@@ -152,8 +157,6 @@ python manage.py runserver
 - Add Django built-in authentication and password hashing
 - Add automated tests for auth, prediction, and training flows
 - Move training to a background worker or scheduled job
-- Add a `.env.example` file for environment configuration
-- Add screenshots and demo videos for presentation
 
 ---
 
@@ -176,3 +179,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📬 Contact
 
 For enhancements, you can extend the model, secure authentication, or add a more comprehensive dataset pipeline.
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/ysathyasai">ysathyasai</a> <br> and CBM team
+</p>
