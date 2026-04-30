@@ -6,7 +6,7 @@
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white" /></a>
   <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/scikit--learn-1.8.0-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" /></a>
   
-  [🚀 Live Demo](https://composite-behavioral-modeling-abci.onrender.com/) • [📖 Documentation](#-features) • [📄 LICENSE](#-license)
+  [🚀 Live Demo](https://composite-behavioral-modeling-abci.onrender.com/) • [📖 Documentation](https://github.com/ysathyasai/Composite_Behavioral_Modeling/blob/main/documentation/Documents_Composite%20Behavioral%20Modeling%20for%20Identity%20Theft%20Detection/Group%20Document.pdf) • [📄 LICENSE](#-license)
 </div>
 
 ---
@@ -148,7 +148,21 @@ python manage.py runserver
 - The app uses simple session handling and should be migrated to Django authentication in production.
 
 > [!NOTE]
-> Hardware Resource Constraints: This project may return an Internal Server Error during model execution. As this is an academic project hosted on the Render Free Tier, the 0.5 CPU allocation and limited RAM are insufficient to process the model's computational requirements. Running the project locally is suggested to utilize the model effectively.
+> *Hardware Resource Constraints:* This project may return an Internal Server Error during model execution. As this is an academic project hosted on the Render Free Tier, the 0.5 CPU allocation and limited RAM are insufficient to process the model's computational requirements. Running the project locally is suggested to utilize the model effectively.
+
+### 🚀 Deployment & Architecture
+> *Full-Stack Django:* Successfully deployed a monolithic Django architecture on Render, managing the complexity of Python WSGI, Gunicorn, and WhiteNoise.
+> 
+> *Automated Pipeline:* Integrated a render.yaml blueprint to handle multi-step builds, including dependency installation, database migrations, and static asset collection.
+> 
+> *Dynamic UI Serving:* Utilized WhiteNoise for efficient middleware-level serving of CSS, JavaScript, and images, bypassing the need for external storage like AWS S3.
+
+### 🧠 Machine Learning & Behavioral Modeling
+> *Ensemble Learning:* The core engine utilizes RandomForestClassifier, GradientBoostingClassifier, and LogisticRegression to analyze digital footprints for identity theft detection.
+> 
+> *Feature Engineering:* Implemented a custom preprocessing pipeline using scikit-learn to handle categorical data and numerical scaling on the fly.
+> 
+> *Predictive Analysis:* Designed to evaluate account behavior metrics like social connection ratios, transaction history, and network protocols.
 
 ---
 
@@ -157,6 +171,7 @@ python manage.py runserver
 - Add Django built-in authentication and password hashing
 - Add automated tests for auth, prediction, and training flows
 - Move training to a background worker or scheduled job
+- Separate the Frontend and backend parts for proper resource allocation
 
 ---
 
