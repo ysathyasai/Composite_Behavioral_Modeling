@@ -13,7 +13,7 @@
 
 ## 🚀 Project Overview
 
-`ysathyasai` is a Django-based identity theft detection platform that evaluates fraud risk using behavioral and transactional inputs. The system provides:
+`Composite Behavioural Modeling` is a Django-based identity theft detection platform that evaluates fraud risk using behavioral and transactional inputs. The system provides:
 
 - A remote user portal for registration, login, and prediction
 - A service provider admin portal for ML training and analytics
